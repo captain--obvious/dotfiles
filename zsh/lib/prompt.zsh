@@ -22,4 +22,9 @@ zstyle ':vcs_info:*' formats ':%b%c%u%f'
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 precmd () { vcs_info }
 
-PROMPT='[%n@%m %~${vcs_info_msg_0_}] %{$reset_color%}'
+if [ "$(whoami)" = "root" ]; then USERCOLOR="red"; else USERCOLOR="green"; fi
+if [ $SSH_CONNECTION ]; then SSH="%{$fg_bold[red]%}"; else SSH=""; fi
+
+PROMPT='[%{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$SSH%}%m%{$reset_color%} %~${vcs_info_msg_0_}] %{$reset_color%}'
+
+# PROMPT='%{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$SSH%}%m%{$reset_color%}:%{$fg_bold[cyan]%}%0~%{$reset_color%}%(!.#.$)%{$reset_color%} '
